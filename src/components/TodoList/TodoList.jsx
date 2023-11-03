@@ -14,7 +14,12 @@ function TodoList() {
   return (
     <>
       <AddToDo
-        addNew={(newTodo) => setToDos([...todos, { id: todos.length + 1, text: newTodo, isChecked: false, }])}
+        addNew={(newTodo) =>
+          setToDos([
+            ...todos,
+            { id: todos.length + 1, text: newTodo, isChecked: false },
+          ])
+        }
       />
       {todos.length > 0 &&
         todos.map((todo) => (
@@ -22,14 +27,25 @@ function TodoList() {
             key={todo.id}
             todo={todo}
             updateIsFinished={(isFinished) => {
-              console.log(isFinished);
               const updatedList = todos.map((t) => {
                 if (t.id == todo.id) {
                   todo.isChecked = isFinished;
                 }
                 return t;
               });
-              console.log(updatedList);
+              setToDos(updatedList);
+            }}
+            deleteTodo={() => {
+              const updatedList = todos.filter((t) => t.id !== todo.id);
+              setToDos(updatedList);
+            }}
+            updateTodo={(editedText) => {
+              const updatedList = todos.map((t) => {
+                if (t.id == todo.id) {
+                  todo.text = editedText;
+                }
+                return t;
+              });
               setToDos(updatedList);
             }}
           />

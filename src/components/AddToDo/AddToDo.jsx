@@ -10,7 +10,14 @@ function AddToDo({ addNew }) {
         placeholder="Add new todo..."
         type="text"
       />
-      <button onClick={() => addNew(newTodo)}>Add</button>
+      <button
+        onClick={() => {
+          addNew(newTodo);
+          setNewTodo("");
+        }}
+      >
+        Add
+      </button>
     </>
   );
 }
