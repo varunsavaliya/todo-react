@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import todoReducerContext from "../../context/todoReducerContext";
 
-function AddToDo({ addNew }) {
+function AddToDo() {
+  const { dispatch } = useContext(todoReducerContext);
   const [newTodo, setNewTodo] = useState("");
   return (
     <>
@@ -12,7 +14,7 @@ function AddToDo({ addNew }) {
       />
       <button
         onClick={() => {
-          addNew(newTodo);
+          dispatch({ type: "add_todo", payload: { todoText: newTodo } });
           setNewTodo("");
         }}
       >
