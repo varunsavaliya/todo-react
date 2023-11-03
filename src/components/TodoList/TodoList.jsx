@@ -1,16 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
+import TodoContext from "../../context/TodoContext";
 import AddToDo from "../AddToDo/AddToDo";
 import Todo from "../Todo/Todo";
 
 function TodoList() {
-  const [todos, setToDos] = useState([
-    { id: 1, text: "Buy groceries", isChecked: false },
-    { id: 2, text: "Walk the dog", isChecked: true },
-    { id: 3, text: "Finish work project", isChecked: false },
-    { id: 4, text: "Go to the gym", isChecked: false },
-    { id: 5, text: "Read a book", isChecked: true },
-  ]);
-
+  const { todos, setToDos } = useContext(TodoContext);
   return (
     <>
       <AddToDo
@@ -21,7 +15,7 @@ function TodoList() {
           ])
         }
       />
-      {todos.length > 0 &&
+      {!todos.length > 0 ? <div>Add your new todo</div> :
         todos.map((todo) => (
           <Todo
             key={todo.id}
