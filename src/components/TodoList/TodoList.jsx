@@ -3,16 +3,16 @@ import { bindActionCreators } from "redux";
 
 import AddToDo from "../AddToDo/AddToDo";
 import Todo from "../Todo/Todo";
-import {
+import todoReducer, {
   addTodo,
   editTodo,
   deleteTodo,
   updateIsFinished,
-} from "../../actions/todoActions";
+} from "../../slices/todoSlice";
 
 function TodoList() {
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo);
+  const todos = useSelector((state) => state.todo.todos);
   const actions = bindActionCreators(
     { addTodo, editTodo, deleteTodo, updateIsFinished },
     dispatch
@@ -29,10 +29,10 @@ function TodoList() {
             key={todo.id}
             todo={todo}
             updateIsFinished={(isFinished) =>
-              actions.updateIsFinished(todo, isFinished)
+              actions.updateIsFinished({todo, isFinished})
             }
-            deleteTodo={() => actions.deleteTodo(todo)}
-            updateTodo={(todoText) => actions.editTodo(todo, todoText)}
+            deleteTodo={() => actions.deleteTodo({todo})}
+            updateTodo={(todoText) => actions.editTodo({todo, todoText})}
           />
         ))
       )}

@@ -12,7 +12,7 @@ function AddToDo({ addTodo }) {
       />
       <button
         onClick={() => {
-          addTodo(newTodo);
+          addTodo({todoText: newTodo});
           setNewTodo("");
         }}
       >
