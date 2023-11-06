@@ -1,28 +1,26 @@
-import { useContext } from "react";
-import TodoContext from "../../context/todoContext";
-import todoReducerContext from "../../context/todoReducerContext";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import AddToDo from "../AddToDo/AddToDo";
 import Todo from "../Todo/Todo";
+import {
+  addTodo,
+  editTodo,
+  deleteTodo,
+  updateIsFinished,
+} from "../../actions/todoActions";
 
 function TodoList() {
-  const { todos } = useContext(TodoContext);
-  const { dispatch } = useContext(todoReducerContext);
-
-  function updateTodo(todo, todoText) {
-    dispatch({type:'edit_todo', payload:{todo, todoText}})
-  }
-
-  function updateIsFinished(todo, isFinished) {
-    dispatch({type:'update_is_finished', payload:{todo, isFinished}})
-  }
-
-  function deleteTodo(todo) {
-    dispatch({type:'delete_todo', payload:{todo}})
-  }
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todo);
+  const actions = bindActionCreators(
+    { addTodo, editTodo, deleteTodo, updateIsFinished },
+    dispatch
+  );
 
   return (
     <>
-      <AddToDo />
+      <AddToDo addTodo={actions.addTodo} />
       {!todos.length > 0 ? (
         <div>Add your new todo</div>
       ) : (
@@ -31,10 +29,10 @@ function TodoList() {
             key={todo.id}
             todo={todo}
             updateIsFinished={(isFinished) =>
-              updateIsFinished(todo, isFinished)
+              actions.updateIsFinished(todo, isFinished)
             }
-            deleteTodo={() => deleteTodo(todo)}
-            updateTodo={(editedText) => updateTodo(todo, editedText)}
+            deleteTodo={() => actions.deleteTodo(todo)}
+            updateTodo={(todoText) => actions.editTodo(todo, todoText)}
           />
         ))
       )}
